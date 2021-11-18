@@ -224,14 +224,16 @@
     }
 
     function CustomError() {
-      throw new ValidationError('could not find what the dog is doing 😔')
+      console.log('checking for whatthadogdoin...')
+      if (!document.querySelector('whatthadogdoin'))
+        throw new ValidationError('could not find what the dog is doing 😔')
     }
 
     try {
-      document.querySelector('whatthadogdoin')
+      CustomError()
     }
     catch (err) {
-      throw new CustomError()
+      console.log(err.message)
     }
 
     /* Step 5 */
