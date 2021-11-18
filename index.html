@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lab 9</title>
 
+
+
   <style>
     button {
       margin: 3px;
@@ -69,25 +71,36 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button onclick="log()">Console Log</button>
+      <button onclick="error()">Console Error</button>
+      <button onclick="count()">Console Count</button>
+      <button onclick="warn()">Console Warn</button>
+      <button onclick="assert()">Console Assert</button>
+      <button onclick="clears()">Console Clear</button>
+      <button onclick="dirs()">Console Dir</button>
+      <button onclick="dirxml()">Console dirxml</button>
+      <button onclick="groupStart()">Console Group Start</button>
+      <button onclick="groupEnd()">Console Group End</button>
+      <button onclick="table()">Console Table</button>
+      <button onclick="startTimer()">Start Timer</button>
+      <button onclick="endTimer()">End Timer</button>
+      <button onclick="trace()">Console Trace</button>
+      <button onclick="globalError()">Trigger a Global Error</button>
     </section>
   </main>
 
+
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({
+      token: "7fda6ccf4b424a439619453247cf4c87"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+    TrackJS.track('Testing TrackJS!');
+  </script>
+
+  <script>
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -102,6 +115,133 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    /* Step 2 */
+
+    function log() {
+      console.log('log')
+    }
+
+    function error() {
+      console.error('error')
+    }
+
+    function count() {
+      console.count('count')
+    }
+
+    function warn() {
+      console.warn('warn')
+    }
+
+    function assert() {
+      console.assert(3 === '3', 'not true')
+    }
+
+    function clears() {
+      console.clear()
+    }
+
+    function dirs() {
+      console.dir(document.head)
+    }
+
+    function dirxml() {
+      console.dirxml(document)
+    }
+
+    const label = 'beans'
+    function groupStart() {
+      console.group(label)
+      console.info('pinto')
+      console.info('black')
+      console.info('green')
+    }
+
+    function groupEnd() {
+      console.groupEnd(label)
+    }
+
+    function table() {
+      console.table([
+        {
+          odd: '1',
+          even: '2',
+        },
+        {
+          odd: '3',
+          even: '4'
+        },
+        {
+          odd: '5',
+          even: '6'
+        }
+      ])
+    }
+
+    function startTimer() {
+      console.time();
+      for (var i = 0; i < 1000000; i++) {
+        let square = i ** 3;
+      }
+    }
+
+    function endTimer() {
+      console.timeEnd()
+    }
+
+    function trace() {
+      const first = () => { second(); };
+      const second = () => { third(); };
+      const third = () => { fourth(); };
+      const fourth = () => { fifth(); };
+      const fifth = () => { console.trace(); }
+      first();
+    }
+
+    function globalError() {
+      throw new Error('global error')
+    }
+
+
+    /* Step 3 */
+    try {
+      document.querySelector('beans')
+    }
+    catch (err) {
+      console.log('there is no beans')
+      throw 'no beans found'
+    } finally {
+      console.log('i want beans 😔')
+    }
+
+    /* Step 4 */
+    class ValidationError extends Error {
+      constructor(message) {
+        super(message);
+      }
+    }
+
+    function CustomError() {
+      throw new ValidationError('could not find what the dog is doing 😔')
+    }
+
+    try {
+      document.querySelector('whatthadogdoin')
+    }
+    catch (err) {
+      throw (CustomError)
+    }
+
+    /* Step 5 */
+    window.onerror = function (message, url, line, error) {
+      console.log('onerror message')
+    }
+
+
+
+
+
   </script>
 </body>
 
